@@ -6,27 +6,27 @@
 All colors MUST be HSL.
 */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 220 15% 20%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 20%;
-
+    --background: 240 6% 11%; /* #1C1C1E */
+    --foreground: 0 0% 100%; /* #FFFFFF */
+    --card: 240 4% 18%; /* #2C2C2E */
+    --card-foreground: 0 0% 100%; /* #FFFFFF */
     --popover: 0 0% 100%;
     --popover-foreground: 220 15% 20%;
 
     /* GymBuddy Brand Colors */
-    --primary: 213 94% 68%; /* Azul fitness vibrante */
-    --primary-foreground: 0 0% 100%;
-    --primary-hover: 213 94% 58%;
+    --primary: 51 100% 50%; /* #FFD700 */
+    --primary-foreground: 0 0% 0%; /* #000000 */
+    --primary-hover: 40 100% 50%; /* #FFAA00 */
     
-    --secondary: 210 20% 96%;
-    --secondary-foreground: 220 15% 20%;
+    --secondary: 240 4% 18%; /* #2C2C2E */
+    --secondary-foreground: 240 3% 57%; /* #8E8E93 */
 
     --muted: 210 20% 96%;
-    --muted-foreground: 215 15% 55%;
+    --muted-foreground: 240 3% 57%; /* #8E8E93 */
 
     --accent: 135 55% 50%; /* Verde para sucesso/conquistas */
     --accent-foreground: 0 0% 100%;
@@ -37,25 +37,25 @@ All colors MUST be HSL.
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 213 94% 68%;
+    --border: 240 4% 24%; /* #38383A */
+    --input: 240 4% 24%; /* #38383A */
+    --ring: 51 100% 50%; /* #FFD700 */
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(213 94% 68%) 0%, hsl(213 94% 58%) 100%);
+    --gradient-primary: none;
     --gradient-secondary: linear-gradient(135deg, hsl(210 20% 96%) 0%, hsl(220 13% 91%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(135 55% 50%) 0%, hsl(135 55% 40%) 100%);
     
     /* Shadows */
-    --shadow-soft: 0 2px 8px -2px hsl(213 94% 68% / 0.1);
-    --shadow-medium: 0 4px 16px -4px hsl(213 94% 68% / 0.2);
-    --shadow-strong: 0 8px 32px -8px hsl(213 94% 68% / 0.3);
+    --shadow-soft: 0 2px 8px -2px rgba(0,0,0,0.10);
+    --shadow-medium: 0 4px 16px -4px rgba(0,0,0,0.15);
+    --shadow-strong: 0 8px 32px -8px rgba(0,0,0,0.20);
     
     /* Animation */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
 
-    --radius: 0.5rem;
+    --radius: 1rem;
 
     --sidebar-background: 0 0% 98%;
 
@@ -72,30 +72,33 @@ All colors MUST be HSL.
     --sidebar-border: 220 13% 91%;
 
     --sidebar-ring: 217.2 91.2% 59.8%;
+    font-family: 'Inter', 'SF Pro Display', 'Segoe UI', Arial, sans-serif;
   }
 
   .dark {
-    --background: 220 15% 9%;
-    --foreground: 210 20% 96%;
+    /* Apple-inspired Dark Mode Colors */
+    --background: 0 0% 11%; /* #1C1C1E equivalent */
+    --foreground: 0 0% 100%; /* #FFFFFF */
 
-    --card: 220 15% 12%;
-    --card-foreground: 210 20% 96%;
+    --card: 0 0% 18%; /* #2C2C2E equivalent */
+    --card-foreground: 0 0% 100%;
 
-    --popover: 220 15% 12%;
-    --popover-foreground: 210 20% 96%;
+    --popover: 0 0% 18%;
+    --popover-foreground: 0 0% 100%;
 
-    --primary: 213 94% 68%;
-    --primary-foreground: 0 0% 100%;
-    --primary-hover: 213 94% 58%;
+    /* Primary with golden accent */
+    --primary: 51 100% 50%; /* #FFD700 - Golden */
+    --primary-foreground: 0 0% 11%;
+    --primary-hover: 51 100% 45%;
 
-    --secondary: 220 15% 20%;
-    --secondary-foreground: 210 20% 96%;
+    --secondary: 0 0% 25%;
+    --secondary-foreground: 0 0% 100%;
 
-    --muted: 220 15% 16%;
-    --muted-foreground: 215 15% 65%;
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 58%; /* #8E8E93 equivalent */
 
-    --accent: 135 55% 50%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 51 100% 50%; /* Golden accent */
+    --accent-foreground: 0 0% 11%;
     
     --warning: 25 95% 53%;
     --warning-foreground: 0 0% 100%;
@@ -103,22 +106,28 @@ All colors MUST be HSL.
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 220 15% 20%;
-    --input: 220 15% 20%;
-    --ring: 213 94% 68%;
+    --border: 0 0% 25%;
+    --input: 0 0% 25%;
+    --ring: 51 100% 50%;
     
     /* Dark mode gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(213 94% 68%) 0%, hsl(213 94% 58%) 100%);
-    --gradient-secondary: linear-gradient(135deg, hsl(220 15% 16%) 0%, hsl(220 15% 20%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(135 55% 50%) 0%, hsl(135 55% 40%) 100%);
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --gradient-primary: linear-gradient(135deg, hsl(51 100% 50%) 0%, hsl(51 100% 45%) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(0 0% 25%) 0%, hsl(0 0% 18%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(51 100% 50%) 0%, hsl(51 100% 45%) 100%);
+    
+    /* Enhanced shadows for dark mode */
+    --shadow-soft: 0 2px 8px -2px hsl(0 0% 0% / 0.3);
+    --shadow-medium: 0 4px 16px -4px hsl(0 0% 0% / 0.4);
+    --shadow-strong: 0 8px 32px -8px hsl(0 0% 0% / 0.5);
+    
+    --sidebar-background: 0 0% 11%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 51 100% 50%;
+    --sidebar-primary-foreground: 0 0% 11%;
+    --sidebar-accent: 0 0% 18%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 0 0% 25%;
+    --sidebar-ring: 51 100% 50%;
   }
 }
 
@@ -129,5 +138,48 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+}
+
+/* Apple-inspired animations */
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+  
+  .animate-slide-up {
+    animation: slideUp 0.3s ease-out;
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.2s ease-out;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from { 
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: scale(1);
   }
 }

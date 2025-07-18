@@ -77,41 +77,41 @@ export function MatchScreen({ onNavigate }: MatchScreenProps) {
   if (!currentProfile) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="flex items-center justify-between p-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
-            <Users className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-soft">
+            <Users className="w-5 h-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="text-xl font-bold">Encontrar Parceiros</h1>
+            <h1 className="text-xl font-bold text-foreground">Encontrar Parceiros</h1>
             <p className="text-sm text-muted-foreground">Deslize para encontrar seu match</p>
           </div>
         </div>
-        <Button variant="ghost" size="icon" onClick={() => onNavigate('profile')}>
+        <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground" onClick={() => onNavigate('profile')}>
           <Users className="w-5 h-5" />
         </Button>
       </div>
 
       {/* Match Card */}
       <div className="px-6 pb-6">
-        <Card className="relative overflow-hidden shadow-strong max-w-sm mx-auto">
+        <Card className="relative overflow-hidden shadow-strong max-w-sm mx-auto bg-card/80 backdrop-blur-xl border-border/50 rounded-2xl animate-slide-up">
           {/* Profile Image */}
           <div 
             className="h-80 bg-cover bg-center relative"
             style={{ backgroundImage: `url(${currentProfile.image})` }}
           >
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
             <div className="absolute top-4 left-4">
-              <Badge variant="secondary" className="bg-white/90 text-foreground">
+              <Badge variant="secondary" className="bg-card/90 text-card-foreground backdrop-blur-sm border-border/50">
                 <MapPin className="w-3 h-3 mr-1" />
                 {currentProfile.distance}
               </Badge>
             </div>
-            <div className="absolute bottom-4 left-4 text-white">
+            <div className="absolute bottom-4 left-4 text-foreground">
               <h2 className="text-2xl font-bold">{currentProfile.name}, {currentProfile.age}</h2>
-              <p className="text-sm opacity-90">{currentProfile.gym}</p>
+              <p className="text-sm text-muted-foreground">{currentProfile.gym}</p>
             </div>
           </div>
 
@@ -123,14 +123,14 @@ export function MatchScreen({ onNavigate }: MatchScreenProps) {
                   <Target className="w-4 h-4" />
                   Objetivo
                 </div>
-                <p className="font-medium">{currentProfile.goal}</p>
+                <p className="font-medium text-card-foreground">{currentProfile.goal}</p>
               </div>
               <div className="space-y-2">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Clock className="w-4 h-4" />
                   Horário
                 </div>
-                <p className="font-medium">{currentProfile.schedule}</p>
+                <p className="font-medium text-card-foreground">{currentProfile.schedule}</p>
               </div>
             </div>
 
@@ -140,7 +140,7 @@ export function MatchScreen({ onNavigate }: MatchScreenProps) {
                 <Dumbbell className="w-4 h-4" />
                 Experiência
               </div>
-              <Badge variant="outline">{currentProfile.experience}</Badge>
+              <Badge variant="outline" className="border-border/50 text-card-foreground">{currentProfile.experience}</Badge>
             </div>
 
             {/* Interests */}
@@ -148,7 +148,7 @@ export function MatchScreen({ onNavigate }: MatchScreenProps) {
               <p className="text-sm text-muted-foreground">Interesses</p>
               <div className="flex flex-wrap gap-2">
                 {currentProfile.interests.map((interest, index) => (
-                  <Badge key={index} variant="secondary" className="text-xs">
+                  <Badge key={index} variant="secondary" className="text-xs bg-primary/20 text-primary border-primary/30">
                     {interest}
                   </Badge>
                 ))}
@@ -157,10 +157,10 @@ export function MatchScreen({ onNavigate }: MatchScreenProps) {
 
             {/* Additional Actions */}
             <div className="pt-2 space-y-2">
-              <Button variant="outline" size="sm" className="w-full">
+              <Button variant="outline" size="sm" className="w-full border-border/50 text-card-foreground hover:bg-card">
                 Ver Treino Sugerido
               </Button>
-              <Button variant="ghost" size="sm" className="w-full">
+              <Button variant="ghost" size="sm" className="w-full text-muted-foreground hover:text-foreground hover:bg-card">
                 <Calendar className="w-4 h-4 mr-2" />
                 Agendar Treino
               </Button>
@@ -171,20 +171,18 @@ export function MatchScreen({ onNavigate }: MatchScreenProps) {
 
       {/* Action Buttons */}
       {showActions && (
-        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-6">
+        <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 flex gap-6">
           <Button
             variant="outline"
             size="icon"
-            className="w-16 h-16 rounded-full border-2 border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
+            className="w-16 h-16 rounded-full border-2 border-destructive/50 text-destructive hover:bg-destructive/10 hover:border-destructive shadow-soft"
             onClick={() => handleSwipe('left')}
           >
             <X className="w-6 h-6" />
           </Button>
           
           <Button
-            variant="accent"
-            size="icon"
-            className="w-16 h-16 rounded-full"
+            className="w-16 h-16 rounded-full bg-primary text-primary-foreground hover:bg-primary-hover shadow-strong"
             onClick={handleMatch}
           >
             <Heart className="w-6 h-6" />
@@ -194,9 +192,9 @@ export function MatchScreen({ onNavigate }: MatchScreenProps) {
 
       {/* Match Notification (when match happens) */}
       {!showActions && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <Card className="bg-gradient-accent text-white p-8 text-center animate-scale-in">
-            <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-xl flex items-center justify-center z-50">
+          <Card className="bg-gradient-primary text-primary-foreground p-8 text-center animate-scale-in rounded-2xl shadow-strong">
+            <div className="w-16 h-16 bg-primary-foreground/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
               <Heart className="w-8 h-8" />
             </div>
             <h2 className="text-2xl font-bold mb-2">É um Match!</h2>

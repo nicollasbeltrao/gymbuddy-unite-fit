@@ -50,66 +50,90 @@ const Index = () => {
       
       {/* Bottom Navigation */}
       {showBottomNav && (
-        <div className="fixed bottom-0 left-0 right-0 bg-card border-t border-border shadow-strong">
+        <div className="fixed bottom-4 left-4 right-4 bg-card/80 backdrop-blur-xl border border-border/50 shadow-strong rounded-2xl">
           <div className="flex items-center justify-around py-2 px-4 max-w-md mx-auto">
             <Button
               variant={currentScreen === 'match' ? 'default' : 'ghost'}
               size="sm"
-              className="flex-col gap-1 h-auto py-2"
+              className={`flex-col gap-0.5 h-auto py-1.5 rounded-xl transition-all duration-200 ${
+                currentScreen === 'match' 
+                  ? 'bg-primary text-primary-foreground shadow-soft' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-card'
+              }`}
               onClick={() => navigate('match')}
             >
-              <Users className="w-5 h-5" />
-              <span className="text-xs">Match</span>
+              <Users className="w-4 h-4" />
+              <span className="text-xs font-medium">Match</span>
             </Button>
             
             <Button
               variant={currentScreen === 'schedule' ? 'default' : 'ghost'}
               size="sm"
-              className="flex-col gap-1 h-auto py-2"
+              className={`flex-col gap-0.5 h-auto py-1.5 rounded-xl transition-all duration-200 ${
+                currentScreen === 'schedule' 
+                  ? 'bg-primary text-primary-foreground shadow-soft' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-card'
+              }`}
               onClick={() => navigate('schedule')}
             >
-              <Calendar className="w-5 h-5" />
-              <span className="text-xs">Agenda</span>
+              <Calendar className="w-4 h-4" />
+              <span className="text-xs font-medium">Agenda</span>
             </Button>
             
             <Button
               variant={currentScreen === 'ai-trainer' ? 'default' : 'ghost'}
               size="sm"
-              className="flex-col gap-1 h-auto py-2"
+              className={`flex-col gap-0.5 h-auto py-1.5 rounded-xl transition-all duration-200 ${
+                currentScreen === 'ai-trainer' 
+                  ? 'bg-primary text-primary-foreground shadow-soft' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-card'
+              }`}
               onClick={() => navigate('ai-trainer')}
             >
-              <Brain className="w-5 h-5" />
-              <span className="text-xs">IA Coach</span>
+              <Brain className="w-4 h-4" />
+              <span className="text-xs font-medium">IA Coach</span>
             </Button>
             
             <Button
               variant={currentScreen === 'social' ? 'default' : 'ghost'}
               size="sm"
-              className="flex-col gap-1 h-auto py-2"
+              className={`flex-col gap-0.5 h-auto py-1.5 rounded-xl transition-all duration-200 ${
+                currentScreen === 'social' 
+                  ? 'bg-primary text-primary-foreground shadow-soft' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-card'
+              }`}
               onClick={() => navigate('social')}
             >
-              <MessageSquare className="w-5 h-5" />
-              <span className="text-xs">Social</span>
+              <MessageSquare className="w-4 h-4" />
+              <span className="text-xs font-medium">Social</span>
             </Button>
             
             <Button
               variant={currentScreen === 'rewards' ? 'default' : 'ghost'}
               size="sm"
-              className="flex-col gap-1 h-auto py-2"
+              className={`flex-col gap-0.5 h-auto py-1.5 rounded-xl transition-all duration-200 ${
+                currentScreen === 'rewards' 
+                  ? 'bg-primary text-primary-foreground shadow-soft' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-card'
+              }`}
               onClick={() => navigate('rewards')}
             >
-              <Trophy className="w-5 h-5" />
-              <span className="text-xs">Pontos</span>
+              <Trophy className="w-4 h-4" />
+              <span className="text-xs font-medium">Pontos</span>
             </Button>
             
             <Button
               variant={currentScreen === 'gyms' ? 'default' : 'ghost'}
               size="sm"
-              className="flex-col gap-1 h-auto py-2"
+              className={`flex-col gap-0.5 h-auto py-1.5 rounded-xl transition-all duration-200 ${
+                currentScreen === 'gyms' 
+                  ? 'bg-primary text-primary-foreground shadow-soft' 
+                  : 'text-muted-foreground hover:text-foreground hover:bg-card'
+              }`}
               onClick={() => navigate('gyms')}
             >
-              <MapPin className="w-5 h-5" />
-              <span className="text-xs">Academias</span>
+              <MapPin className="w-4 h-4" />
+              <span className="text-xs font-medium">Academias</span>
             </Button>
           </div>
         </div>

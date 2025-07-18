@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Play, Pause, RotateCcw, Settings, History, Users, Brain } from "lucide-react";
+import { Brain, Settings, Play, Pause, RotateCcw, History, Users } from "lucide-react";
 
 interface AITrainerScreenProps {
   onNavigate: (screen: string) => void;
@@ -48,21 +48,21 @@ export function AITrainerScreen({ onNavigate }: AITrainerScreenProps) {
   const exercise = currentWorkout[currentExercise];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted">
+    <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold">IA Trainer</h1>
+            <h1 className="text-2xl font-bold text-foreground">IA Trainer</h1>
             <p className="text-muted-foreground">Treino personalizado em dupla</p>
           </div>
-          <Button variant="ghost" size="icon">
+          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground">
             <Settings className="w-5 h-5" />
           </Button>
         </div>
 
         {/* Workout Info */}
-        <Card className="bg-gradient-primary text-white shadow-medium mb-6">
+        <Card className="bg-gradient-primary text-primary-foreground shadow-medium mb-6 rounded-2xl">
           <CardContent className="p-4">
             <div className="flex items-center justify-between">
               <div>
@@ -80,14 +80,14 @@ export function AITrainerScreen({ onNavigate }: AITrainerScreenProps) {
 
       {/* AI Avatar Video Area */}
       <div className="px-6 mb-6">
-        <Card className="overflow-hidden shadow-strong">
+        <Card className="overflow-hidden shadow-strong bg-card/80 backdrop-blur-xl border-border/50 rounded-2xl">
           <div className="relative bg-gradient-to-br from-primary/10 to-accent/10 h-64 flex items-center justify-center">
             {/* AI Avatar Placeholder */}
             <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Brain className="w-10 h-10 text-white" />
+              <div className="w-20 h-20 bg-gradient-primary rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-soft">
+                <Brain className="w-10 h-10 text-primary-foreground" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">IA Coach Personal</h3>
+              <h3 className="text-lg font-semibold mb-2 text-foreground">IA Coach Personal</h3>
               <p className="text-sm text-muted-foreground mb-4">
                 Demonstrando: {exercise.name}
               </p>
@@ -97,6 +97,7 @@ export function AITrainerScreen({ onNavigate }: AITrainerScreenProps) {
                 <Button
                   variant="outline"
                   size="icon"
+                  className="border-border/50 text-card-foreground hover:bg-card"
                   onClick={() => setCurrentExercise(Math.max(0, currentExercise - 1))}
                   disabled={currentExercise === 0}
                 >
@@ -105,7 +106,7 @@ export function AITrainerScreen({ onNavigate }: AITrainerScreenProps) {
                 
                 <Button
                   size="icon"
-                  className="w-12 h-12 rounded-full"
+                  className="w-12 h-12 rounded-full bg-primary text-primary-foreground hover:bg-primary-hover shadow-strong"
                   onClick={() => setIsPlaying(!isPlaying)}
                 >
                   {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
@@ -114,6 +115,7 @@ export function AITrainerScreen({ onNavigate }: AITrainerScreenProps) {
                 <Button
                   variant="outline"
                   size="icon"
+                  className="border-border/50 text-card-foreground hover:bg-card"
                   onClick={() => setCurrentExercise(Math.min(currentWorkout.length - 1, currentExercise + 1))}
                   disabled={currentExercise === currentWorkout.length - 1}
                 >
@@ -127,11 +129,11 @@ export function AITrainerScreen({ onNavigate }: AITrainerScreenProps) {
 
       {/* Exercise Details */}
       <div className="px-6 space-y-4">
-        <Card className="shadow-soft">
+        <Card className="shadow-soft bg-card/80 backdrop-blur-xl border-border/50 rounded-2xl">
           <CardHeader className="pb-3">
             <div className="flex items-center justify-between">
-              <CardTitle className="text-lg">{exercise.name}</CardTitle>
-              <Badge variant="outline">
+              <CardTitle className="text-lg text-card-foreground">{exercise.name}</CardTitle>
+              <Badge variant="outline" className="border-border/50 text-card-foreground">
                 Série {currentSet}/{exercise.sets}
               </Badge>
             </div>
@@ -152,9 +154,9 @@ export function AITrainerScreen({ onNavigate }: AITrainerScreenProps) {
               </div>
             </div>
             
-            <div className="p-3 bg-accent/10 rounded-lg">
+            <div className="p-3 bg-accent/20 rounded-2xl border border-accent/30">
               <p className="text-sm font-medium text-accent mb-1">💡 Dica do IA Coach:</p>
-              <p className="text-sm text-muted-foreground">{exercise.tips}</p>
+              <p className="text-sm text-card-foreground">{exercise.tips}</p>
             </div>
           </CardContent>
         </Card>
@@ -163,25 +165,26 @@ export function AITrainerScreen({ onNavigate }: AITrainerScreenProps) {
         <div className="grid grid-cols-2 gap-3">
           <Button 
             variant="outline"
+            className="border-border/50 text-card-foreground hover:bg-card"
             onClick={() => setCurrentSet(Math.min(exercise.sets, currentSet + 1))}
           >
             Próxima Série
           </Button>
-          <Button variant="accent">
+          <Button className="bg-primary text-primary-foreground hover:bg-primary-hover shadow-strong">
             Exercício Concluído
           </Button>
         </div>
 
         {/* Quick Actions */}
         <div className="grid grid-cols-3 gap-3">
-          <Button variant="ghost" size="sm" className="flex-col gap-1 h-auto py-3">
+          <Button variant="ghost" size="sm" className="flex-col gap-1 h-auto py-3 text-muted-foreground hover:text-foreground hover:bg-card">
             <Settings className="w-5 h-5" />
             <span className="text-xs">Adaptar</span>
           </Button>
           <Button 
             variant="ghost" 
             size="sm" 
-            className="flex-col gap-1 h-auto py-3"
+            className="flex-col gap-1 h-auto py-3 text-muted-foreground hover:text-foreground hover:bg-card"
             onClick={() => onNavigate('history')}
           >
             <History className="w-5 h-5" />
@@ -190,7 +193,7 @@ export function AITrainerScreen({ onNavigate }: AITrainerScreenProps) {
           <Button 
             variant="ghost" 
             size="sm" 
-            className="flex-col gap-1 h-auto py-3"
+            className="flex-col gap-1 h-auto py-3 text-muted-foreground hover:text-foreground hover:bg-card"
             onClick={() => onNavigate('social')}
           >
             <Users className="w-5 h-5" />
@@ -199,15 +202,15 @@ export function AITrainerScreen({ onNavigate }: AITrainerScreenProps) {
         </div>
 
         {/* Partner Sync Status */}
-        <Card className="bg-gradient-secondary">
+        <Card className="bg-gradient-secondary border-border/50 rounded-2xl">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
               <div className="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
               <div className="flex-1">
-                <p className="text-sm font-medium">Sincronizado com Ana Silva</p>
+                <p className="text-sm font-medium text-card-foreground">Sincronizado com Ana Silva</p>
                 <p className="text-xs text-muted-foreground">Vocês estão no mesmo exercício</p>
               </div>
-              <Badge variant="secondary" className="text-xs">
+              <Badge variant="secondary" className="text-xs bg-primary/20 text-primary border-primary/30">
                 Online
               </Badge>
             </div>

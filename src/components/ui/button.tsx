@@ -5,11 +5,11 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-medium ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-bold ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
-        default: "bg-gradient-primary text-primary-foreground hover:shadow-medium hover:scale-105 shadow-soft",
+        default: "bg-gradient-to-r from-[#FFD700] to-[#FFAA00] text-black font-bold rounded-full hover:shadow-medium hover:scale-105 shadow-soft",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
@@ -18,7 +18,7 @@ const buttonVariants = cva(
           "bg-gradient-secondary text-secondary-foreground hover:shadow-soft",
         ghost: "hover:bg-accent/10 hover:text-accent",
         link: "text-primary underline-offset-4 hover:underline",
-        hero: "bg-gradient-primary text-primary-foreground hover:shadow-strong hover:scale-105 shadow-medium text-base py-4 px-8 rounded-xl font-semibold",
+        hero: "bg-gradient-to-r from-[#FFD700] to-[#FFAA00] text-black font-bold rounded-full hover:shadow-strong hover:scale-105 shadow-medium text-base py-4 px-8",
         accent: "bg-gradient-accent text-accent-foreground hover:shadow-medium hover:scale-105 shadow-soft",
         warning: "bg-warning text-warning-foreground hover:bg-warning/90 shadow-soft",
       },
