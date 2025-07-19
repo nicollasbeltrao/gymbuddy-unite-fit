@@ -24,7 +24,7 @@ export function RegisterScreen({ onNavigate }: RegisterScreenProps) {
           variant="ghost"
           size="icon"
           className="text-muted-foreground hover:text-foreground"
-          onClick={() => currentStep > 1 ? setCurrentStep(currentStep - 1) : onNavigate('welcome')}
+          onClick={() => currentStep > 1 ? setCurrentStep(currentStep - 1) : onNavigate('security')}
         >
           <ArrowLeft className="w-5 h-5" />
         </Button>
@@ -188,7 +188,7 @@ export function RegisterScreen({ onNavigate }: RegisterScreenProps) {
               
               <Button 
                 className="w-full bg-primary text-primary-foreground hover:bg-primary-hover shadow-strong rounded-2xl h-12 text-lg font-medium" 
-                onClick={() => onNavigate('match')}
+                onClick={() => onNavigate('profile-creation')}
               >
                 <Dumbbell className="w-4 h-4 mr-2" />
                 Finalizar Cadastro
