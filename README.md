@@ -1,4 +1,8 @@
-# Welcome to your Lovable project
+# WorkoutBuddy
+
+Seu app de conexão para treinos, desafios e recompensas personalizadas.
+
+## Project info
 
 ## Project info
 

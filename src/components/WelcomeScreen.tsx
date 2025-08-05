@@ -21,7 +21,7 @@ export function WelcomeScreen({ onNavigate }: WelcomeScreenProps) {
   const texts = [
     "Você sabia?",
     "79% das pessoas que treinam em dupla mantêm o hábito por mais de 6 meses.",
-    "Com GymBuddy, você encontra seu parceiro de treino ideal, com segurança e motivação."
+            "Com WorkoutBuddy, você encontra seu parceiro de treino ideal, com segurança e motivação."
   ];
 
   return (
@@ -42,7 +42,7 @@ export function WelcomeScreen({ onNavigate }: WelcomeScreenProps) {
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-strong">
               <Users className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">GymBuddy</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">WorkoutBuddy</h1>
           </div>
         </div>
 

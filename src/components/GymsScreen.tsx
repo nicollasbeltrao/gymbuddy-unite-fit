@@ -294,7 +294,7 @@ export function GymsScreen({ onNavigate }: GymsScreenProps) {
           <CardContent className="p-6">
             <h3 className="text-lg font-semibold mb-2">Programa de Parcerias</h3>
             <p className="text-sm opacity-90 mb-4">
-              Academias parceiras oferecem condições especiais para usuários GymBuddy
+              Academias parceiras oferecem condições especiais para usuários WorkoutBuddy
             </p>
             <div className="flex items-center gap-4">
               <div className="text-center">

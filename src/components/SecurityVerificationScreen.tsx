@@ -58,7 +58,7 @@ export function SecurityVerificationScreen({ onComplete }: SecurityVerificationS
             <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-primary rounded-2xl flex items-center justify-center shadow-strong">
               <Shield className="w-5 h-5 sm:w-6 sm:h-6 text-primary-foreground" />
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">GymBuddy</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">WorkoutBuddy</h1>
           </div>
         </div>
 

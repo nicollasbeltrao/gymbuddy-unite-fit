@@ -64,7 +64,7 @@ export function SplashScreen({ onComplete }: SplashScreenProps) {
             opacity: logoOpacity,
           }}
         >
-          GymBuddy
+                          WorkoutBuddy
         </h1>
         
         {/* Tagline */}

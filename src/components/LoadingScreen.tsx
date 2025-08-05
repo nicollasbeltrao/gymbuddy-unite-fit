@@ -15,7 +15,7 @@ export function LoadingScreen({ onComplete }: LoadingScreenProps) {
     "Conectando com parceiros próximos...",
     "Preparando treinos personalizados...",
     "Sincronizando suas conquistas...",
-    "Tudo pronto! Bem-vindo ao GymBuddy!"
+            "Tudo pronto! Bem-vindo ao WorkoutBuddy!"
   ];
 
   useEffect(() => {

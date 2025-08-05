@@ -11,163 +11,29 @@ import { GymsScreen } from "@/components/GymsScreen";
 import { SplashScreen } from "@/components/SplashScreen";
 import { LoadingScreen } from "@/components/LoadingScreen";
 import { SecurityVerificationScreen } from "@/components/SecurityVerificationScreen";
+import { ChatScreen } from "@/components/ChatScreen";
+import { WorkoutChat } from "@/components/WorkoutChat";
+import { SettingsScreen } from "@/components/SettingsScreen";
 import { Button } from "@/components/ui/button";
-import { Home, Users, Calendar, Brain, MessageSquare, Trophy, MapPin, ChevronUp, ChevronDown, GripVertical } from "lucide-react";
+import { Home, Users, Calendar, Brain, MessageSquare, Trophy, MapPin, ChevronUp, ChevronDown, GripVertical, Settings as SettingsIcon } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { useTheme } from "@/contexts/ThemeContext";
 
-type Screen = 'splash' | 'security' | 'register' | 'profile-creation' | 'loading' | 'welcome' | 'login' | 'match' | 'schedule' | 'ai-trainer' | 'social' | 'rewards' | 'gyms' | 'profile' | 'history';
+type Screen = 'splash' | 'security' | 'register' | 'profile-creation' | 'loading' | 'welcome' | 'login' | 'match' | 'schedule' | 'ai-trainer' | 'social' | 'rewards' | 'gyms' | 'profile' | 'history' | 'chat' | 'workout-chat' | 'settings';
 
 const Index = () => {
   const [currentScreen, setCurrentScreen] = useState<Screen>('splash');
-  const [isNavVisible, setIsNavVisible] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [isDragging, setIsDragging] = useState(false);
-  const touchStartY = useRef<number>(0);
-  const touchEndY = useRef<number>(0);
-  const lastScrollY = useRef<number>(0);
-  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
-  const dragStartY = useRef<number>(0);
-  const currentDragY = useRef<number>(0);
+  const { theme } = useTheme();
 
   const navigate = (screen: Screen) => {
+    // Haptic feedback para iOS/Android
+    if ('vibrate' in navigator) {
+      navigator.vibrate(50);
+    }
     setCurrentScreen(screen);
   };
 
-  const showBottomNav = !['splash', 'security', 'register', 'profile-creation', 'loading', 'welcome', 'login'].includes(currentScreen);
-
-  // Detectar swipe up/down na parte inferior da tela
-  const handleTouchStart = (e: TouchEvent) => {
-    touchStartY.current = e.touches[0].clientY;
-    dragStartY.current = e.touches[0].clientY;
-    setIsDragging(true);
-  };
-
-  const handleTouchMove = (e: TouchEvent) => {
-    touchEndY.current = e.touches[0].clientY;
-    currentDragY.current = e.touches[0].clientY;
-    
-    // Prevenir scroll durante o drag
-    if (Math.abs(currentDragY.current - dragStartY.current) > 10) {
-      e.preventDefault();
-    }
-  };
-
-  const handleTouchEnd = () => {
-    const touchDiff = touchStartY.current - touchEndY.current;
-    const minSwipeDistance = 35; // Reduzido para ser mais responsivo
-    
-    // Verificar se o toque foi na parte inferior da tela (últimos 150px)
-    const isBottomArea = touchStartY.current > window.innerHeight - 150;
-    
-    if (isBottomArea && Math.abs(touchDiff) > minSwipeDistance) {
-      if (touchDiff > 0) {
-        // Swipe up - mostrar navegação
-        showNavigation();
-      } else {
-        // Swipe down - ocultar navegação
-        hideNavigation();
-      }
-    }
-    
-    setIsDragging(false);
-  };
-
-  // Detectar scroll para ocultar navegação
-  const handleScroll = () => {
-    const currentScrollY = window.scrollY;
-    const scrollDiff = currentScrollY - lastScrollY.current;
-    
-    // Limpar timeout anterior
-    if (scrollTimeout.current) {
-      clearTimeout(scrollTimeout.current);
-    }
-    
-    // Se estiver scrollando para baixo e a navegação estiver visível, ocultar
-    if (scrollDiff > 10 && isNavVisible) {
-      hideNavigation();
-    }
-    
-    // Se parou de scrollar, aguardar um pouco e ocultar
-    scrollTimeout.current = setTimeout(() => {
-      if (isNavVisible) {
-        hideNavigation();
-      }
-    }, 3000);
-    
-    lastScrollY.current = currentScrollY;
-  };
-
-  const showNavigation = () => {
-    if (!isNavVisible && !isTransitioning) {
-      setIsTransitioning(true);
-      setIsNavVisible(true);
-      
-      // Remover classe de transição após animação
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 500);
-    }
-  };
-
-  const hideNavigation = () => {
-    if (isNavVisible && !isTransitioning) {
-      setIsTransitioning(true);
-      setIsNavVisible(false);
-      
-      // Remover classe de transição após animação
-      setTimeout(() => {
-        setIsTransitioning(false);
-      }, 500);
-    }
-  };
-
-  // Toggle navigation (para clique no handle)
-  const toggleNavigation = () => {
-    if (isNavVisible) {
-      hideNavigation();
-    } else {
-      showNavigation();
-    }
-  };
-
-  // Adicionar event listeners
-  useEffect(() => {
-    if (showBottomNav) {
-      document.addEventListener('touchstart', handleTouchStart, { passive: false });
-      document.addEventListener('touchmove', handleTouchMove, { passive: false });
-      document.addEventListener('touchend', handleTouchEnd, { passive: true });
-      window.addEventListener('scroll', handleScroll, { passive: true });
-      
-      // Ocultar navegação inicialmente após um delay
-      const initialHideTimeout = setTimeout(() => {
-        hideNavigation();
-      }, 2000);
-      
-      return () => {
-        document.removeEventListener('touchstart', handleTouchStart);
-        document.removeEventListener('touchmove', handleTouchMove);
-        document.removeEventListener('touchend', handleTouchEnd);
-        window.removeEventListener('scroll', handleScroll);
-        if (scrollTimeout.current) {
-          clearTimeout(scrollTimeout.current);
-        }
-        clearTimeout(initialHideTimeout);
-      };
-    }
-  }, [showBottomNav, isNavVisible, isTransitioning]);
-
-  // Mostrar navegação temporariamente ao mudar de tela
-  useEffect(() => {
-    if (showBottomNav) {
-      showNavigation();
-      
-      // Ocultar após 5 segundos
-      const hideTimeout = setTimeout(() => {
-        hideNavigation();
-      }, 5000);
-      
-      return () => clearTimeout(hideTimeout);
-    }
-  }, [currentScreen]);
+  const showBottomNav = !['splash', 'security', 'register', 'profile-creation', 'loading', 'welcome', 'login', 'chat', 'workout-chat', 'settings'].includes(currentScreen);
 
   const renderScreen = () => {
     switch (currentScreen) {
@@ -197,6 +63,12 @@ const Index = () => {
         return <RewardsScreen onNavigate={navigate} />;
       case 'gyms':
         return <GymsScreen onNavigate={navigate} />;
+      case 'chat':
+        return <ChatScreen onNavigate={navigate} />;
+      case 'workout-chat':
+        return <WorkoutChat onNavigate={navigate} />;
+      case 'settings':
+        return <SettingsScreen onNavigate={navigate} />;
       default:
         return <WelcomeScreen onNavigate={navigate} />;
     }
@@ -204,130 +76,155 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background relative safe-area-top safe-area-bottom">
-      {renderScreen()}
+      <div className={showBottomNav ? 'pb-[70px]' : ''}>
+        {renderScreen()}
+      </div>
       
       {/* Bottom Navigation */}
       {showBottomNav && (
         <div 
-          className={`fixed bottom-4 left-4 right-4 bg-card/95 backdrop-blur-xl border border-border/50 shadow-strong rounded-2xl transition-all duration-500 ease-out safe-area-bottom ${
-            isNavVisible 
-              ? 'translate-y-0 opacity-100 shadow-2xl' 
-              : 'translate-y-full opacity-0'
-          }`}
+          className="fixed bottom-0 left-0 right-0 h-[70px] bg-card/95 backdrop-blur-[10px] border-t border-border/50 shadow-[0_-2px_10px_rgba(0,0,0,0.1)] z-50 safe-area-bottom"
+          style={{
+            background: theme === 'dark' ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.95)',
+            backdropFilter: 'blur(10px)',
+            boxShadow: theme === 'dark' 
+              ? '0 -2px 10px rgba(0,0,0,0.2)' 
+              : '0 -2px 10px rgba(0,0,0,0.1)'
+          }}
         >
-          {/* Drag Handle */}
-          <div className="flex justify-center pt-3 pb-1">
-            <div 
-              className="w-16 h-2 bg-gray-300/60 dark:bg-gray-600/60 backdrop-blur-sm rounded-full border border-gray-400/30 dark:border-gray-500/30 flex items-center justify-center cursor-pointer hover:bg-gray-400/80 dark:hover:bg-gray-500/80 active:scale-95 transition-all duration-200 shadow-sm"
-              onClick={toggleNavigation}
-            >
-              <div className="flex items-center gap-0.5 opacity-60">
-                <div className="w-0.5 h-0.5 bg-gray-500/80 dark:bg-gray-400/80 rounded-full" />
-                <div className="w-0.5 h-0.5 bg-gray-500/80 dark:bg-gray-400/80 rounded-full" />
-                <div className="w-0.5 h-0.5 bg-gray-500/80 dark:bg-gray-400/80 rounded-full" />
-              </div>
-            </div>
-            <div 
-              className="absolute top-0 left-1/2 transform -translate-x-1/2 w-20 h-12 cursor-pointer"
-              onTouchStart={(e) => {
-                e.preventDefault();
-                const touch = e.touches[0];
-                touchStartY.current = touch.clientY;
-                dragStartY.current = touch.clientY;
-                setIsDragging(true);
-              }}
-              onTouchMove={(e) => {
-                if (!isDragging) return;
-                const touch = e.touches[0];
-                touchEndY.current = touch.clientY;
-                currentDragY.current = touch.clientY;
-                
-                if (Math.abs(currentDragY.current - dragStartY.current) > 10) {
-                  e.preventDefault();
-                }
-              }}
-              onTouchEnd={() => {
-                if (!isDragging) return;
-                const touchDiff = touchStartY.current - touchEndY.current;
-                const minSwipeDistance = 30;
-                
-                if (Math.abs(touchDiff) > minSwipeDistance) {
-                  if (touchDiff > 0) {
-                    showNavigation();
-                  } else {
-                    hideNavigation();
-                  }
-                }
-                setIsDragging(false);
-              }}
-            />
-          </div>
-
           {/* Navigation Buttons */}
-          <div className="flex items-center justify-between px-6 pb-4 gap-2">
+          <div className="flex items-center justify-between h-full px-6 gap-1">
             <Button
               variant="ghost"
               size="sm"
-              className={`flex-1 h-12 rounded-xl transition-all duration-200 ${
-                currentScreen === 'match' 
-                  ? 'bg-primary/20 text-primary border border-primary/30' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-card'
-              }`}
+              className="flex flex-col items-center justify-center gap-1 h-full min-w-[48px] p-2 rounded-none hover:bg-foreground/5 active:scale-105 transition-all duration-200"
               onClick={() => navigate('match')}
             >
-              <Users className="w-5 h-5" />
+              <Users 
+                className={`w-6 h-6 transition-all duration-200 ${
+                  currentScreen === 'match' 
+                    ? 'text-primary scale-110' 
+                    : 'text-muted-foreground'
+                }`}
+              />
+              <span className={`text-[10px] font-medium transition-colors duration-200 ${
+                currentScreen === 'match' 
+                  ? 'text-primary' 
+                  : 'text-muted-foreground'
+              }`}>
+                Match
+              </span>
             </Button>
             
             <Button
               variant="ghost"
               size="sm"
-              className={`flex-1 h-12 rounded-xl transition-all duration-200 ${
-                currentScreen === 'schedule' 
-                  ? 'bg-primary/20 text-primary border border-primary/30' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-card'
-              }`}
+              className="flex flex-col items-center justify-center gap-1 h-full min-w-[48px] p-2 rounded-none hover:bg-foreground/5 active:scale-105 transition-all duration-200"
               onClick={() => navigate('schedule')}
             >
-              <Calendar className="w-5 h-5" />
+              <Calendar 
+                className={`w-6 h-6 transition-all duration-200 ${
+                  currentScreen === 'schedule' 
+                    ? 'text-primary scale-110' 
+                    : 'text-muted-foreground'
+                }`}
+              />
+              <span className={`text-[10px] font-medium transition-colors duration-200 ${
+                currentScreen === 'schedule' 
+                  ? 'text-primary' 
+                  : 'text-muted-foreground'
+              }`}>
+                Agenda
+              </span>
             </Button>
             
             <Button
               variant="ghost"
               size="sm"
-              className={`flex-1 h-12 rounded-xl transition-all duration-200 ${
-                currentScreen === 'ai-trainer' 
-                  ? 'bg-primary/20 text-primary border border-primary/30' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-card'
-              }`}
+              className="flex flex-col items-center justify-center gap-1 h-full min-w-[48px] p-2 rounded-none hover:bg-foreground/5 active:scale-105 transition-all duration-200"
               onClick={() => navigate('ai-trainer')}
             >
-              <Brain className="w-5 h-5" />
+              <Brain 
+                className={`w-6 h-6 transition-all duration-200 ${
+                  currentScreen === 'ai-trainer' 
+                    ? 'text-primary scale-110' 
+                    : 'text-muted-foreground'
+                }`}
+              />
+              <span className={`text-[10px] font-medium transition-colors duration-200 ${
+                currentScreen === 'ai-trainer' 
+                  ? 'text-primary' 
+                  : 'text-muted-foreground'
+              }`}>
+                IA Coach
+              </span>
             </Button>
             
             <Button
               variant="ghost"
               size="sm"
-              className={`flex-1 h-12 rounded-xl transition-all duration-200 ${
-                currentScreen === 'social' 
-                  ? 'bg-primary/20 text-primary border border-primary/30' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-card'
-              }`}
+              className="flex flex-col items-center justify-center gap-1 h-full min-w-[48px] p-2 rounded-none hover:bg-foreground/5 active:scale-105 transition-all duration-200"
               onClick={() => navigate('social')}
             >
-              <MessageSquare className="w-5 h-5" />
+              <MessageSquare 
+                className={`w-6 h-6 transition-all duration-200 ${
+                  currentScreen === 'social' 
+                    ? 'text-primary scale-110' 
+                    : 'text-muted-foreground'
+                }`}
+              />
+              <span className={`text-[10px] font-medium transition-colors duration-200 ${
+                currentScreen === 'social' 
+                  ? 'text-primary' 
+                  : 'text-muted-foreground'
+              }`}>
+                Chat
+              </span>
             </Button>
             
             <Button
               variant="ghost"
               size="sm"
-              className={`flex-1 h-12 rounded-xl transition-all duration-200 ${
-                currentScreen === 'rewards' 
-                  ? 'bg-primary/20 text-primary border border-primary/30' 
-                  : 'text-muted-foreground hover:text-foreground hover:bg-card'
-              }`}
+              className="flex flex-col items-center justify-center gap-1 h-full min-w-[48px] p-2 rounded-none hover:bg-foreground/5 active:scale-105 transition-all duration-200"
               onClick={() => navigate('rewards')}
             >
-              <Trophy className="w-5 h-5" />
+              <Trophy 
+                className={`w-6 h-6 transition-all duration-200 ${
+                  currentScreen === 'rewards' 
+                    ? 'text-primary scale-110' 
+                    : 'text-muted-foreground'
+                }`}
+              />
+              <span className={`text-[10px] font-medium transition-colors duration-200 ${
+                currentScreen === 'rewards' 
+                  ? 'text-primary' 
+                  : 'text-muted-foreground'
+              }`}>
+                Ranking
+              </span>
+            </Button>
+            
+            {/* Settings Button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="flex flex-col items-center justify-center gap-1 h-full min-w-[48px] p-2 rounded-none hover:bg-foreground/5 active:scale-105 transition-all duration-200"
+              onClick={() => navigate('settings')}
+            >
+              <SettingsIcon 
+                className={`w-6 h-6 transition-all duration-200 ${
+                  currentScreen === 'settings' 
+                    ? 'text-primary scale-110' 
+                    : 'text-muted-foreground'
+                }`}
+              />
+              <span className={`text-[10px] font-medium transition-colors duration-200 ${
+                currentScreen === 'settings' 
+                  ? 'text-primary' 
+                  : 'text-muted-foreground'
+              }`}>
+                Config
+              </span>
             </Button>
           </div>
         </div>

@@ -2,7 +2,8 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Heart, X, Calendar, Dumbbell, Clock, MapPin, Target, Users, MessageCircle } from "lucide-react";
+import { Heart, X, Dumbbell, Clock, MapPin, Target, Users, MessageCircle } from "lucide-react";
+import { useChatContext } from "@/contexts/ChatContext";
 
 interface MatchScreenProps {
   onNavigate: (screen: string) => void;
@@ -52,6 +53,7 @@ const mockProfiles: Profile[] = [
 ];
 
 export function MatchScreen({ onNavigate }: MatchScreenProps) {
+  const { addNewMatch } = useChatContext();
   const [currentProfileIndex, setCurrentProfileIndex] = useState(0);
   const [showActions, setShowActions] = useState(true);
   const [swipe, setSwipe] = useState<{ dx: number; startX: number | null; isSwiping: boolean }>({ dx: 0, startX: null, isSwiping: false });
@@ -87,11 +89,9 @@ export function MatchScreen({ onNavigate }: MatchScreenProps) {
         // Match real - mostrar notificação
         setShowMatch(true);
         setMatches((prev) => [...prev, currentProfile]);
-        setTimeout(() => {
-          setShowMatch(false);
-          nextProfile();
-          setLikeAnimation(null);
-        }, 1500);
+        // Adicionar automaticamente à lista de chat
+        addNewMatch(currentProfile);
+        // Removido auto-close - usuário deve escolher manualmente
       } else {
         // Apenas like - não mostrar match
         setTimeout(() => {
@@ -133,11 +133,9 @@ export function MatchScreen({ onNavigate }: MatchScreenProps) {
     if (currentProfile.likedYou) {
       setShowMatch(true);
       setMatches((prev) => [...prev, currentProfile]);
-      setTimeout(() => {
-        setShowMatch(false);
-        nextProfile();
-        setLikeAnimation(null);
-      }, 1000);
+      // Adicionar automaticamente à lista de chat
+      addNewMatch(currentProfile);
+      // Removido auto-close - usuário deve escolher manualmente
     } else {
       setTimeout(() => {
         nextProfile();
@@ -263,16 +261,7 @@ export function MatchScreen({ onNavigate }: MatchScreenProps) {
               </div>
             </div>
 
-            {/* Additional Actions */}
-            <div className="pt-2 space-y-2">
-              <Button variant="outline" size="sm" className="w-full border-border/50 text-card-foreground hover:bg-card">
-                Ver Treino Sugerido
-              </Button>
-              <Button variant="ghost" size="sm" className="w-full text-muted-foreground hover:text-foreground hover:bg-card">
-                <Calendar className="w-4 h-4 mr-2" />
-                Agendar Treino
-              </Button>
-            </div>
+
           </CardContent>
         </div>
       </div>
@@ -300,30 +289,85 @@ export function MatchScreen({ onNavigate }: MatchScreenProps) {
 
       {/* Match Notification (quando for um match verdadeiro) */}
       {showMatch && (
-        <div className="fixed inset-0 bg-background/80 backdrop-blur-xl flex items-center justify-center z-50">
-          <Card className="bg-gradient-primary text-primary-foreground p-8 text-center animate-scale-in rounded-2xl shadow-strong max-w-sm mx-auto">
-            <div className="w-16 h-16 bg-primary-foreground/20 rounded-2xl flex items-center justify-center mx-auto mb-4">
-              <Heart className="w-8 h-8" />
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-xl flex items-center justify-center z-50 p-4">
+          <div 
+            className="bg-gradient-to-b from-[#FFF9C4] to-[#FFEB3B] p-8 text-center animate-scale-in rounded-2xl shadow-lg max-w-sm mx-auto"
+            style={{ boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)' }}
+          >
+            <div 
+              className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-4"
+              style={{ backgroundColor: '#FDD835' }}
+            >
+              <Heart className="w-8 h-8 text-black" />
             </div>
-            <h2 className="text-2xl font-bold mb-2">É um Match!</h2>
-            <p className="mb-6">Vocês podem começar a treinar juntos</p>
+            <h2 
+              className="mb-2"
+              style={{ 
+                fontWeight: 700, 
+                fontSize: '20px', 
+                color: '#000' 
+              }}
+            >
+              É um Match!
+            </h2>
+            <p 
+              className="mb-6"
+              style={{ 
+                fontSize: '14px', 
+                color: '#444' 
+              }}
+            >
+              Vocês podem começar a treinar juntos
+            </p>
             <div className="space-y-3">
               <Button 
-                onClick={() => onNavigate('social')} 
-                className="w-full bg-primary-foreground text-primary hover:bg-primary-foreground/90"
+                onClick={() => {
+                  setShowMatch(false);
+                  // Navegar direto para o WorkoutChat com a pessoa específica
+                  onNavigate('workout-chat');
+                }} 
+                className="w-full font-semibold text-base"
+                style={{
+                  backgroundColor: '#000000',
+                  color: '#FFFFFF',
+                  borderRadius: '12px',
+                  border: 'none'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#333333';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000000';
+                }}
               >
                 <MessageCircle className="w-4 h-4 mr-2" />
                 Iniciar Conversa
               </Button>
               <Button 
                 variant="outline" 
-                onClick={() => setShowMatch(false)}
-                className="w-full border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10"
+                onClick={() => {
+                  setShowMatch(false);
+                  nextProfile();
+                  setLikeAnimation(null);
+                }}
+                className="w-full font-medium"
+                style={{
+                  backgroundColor: 'transparent',
+                  border: '1px solid rgba(0, 0, 0, 0.33)',
+                  color: '#000000',
+                  borderRadius: '12px'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#f0f0f0';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }}
               >
                 Continuar Explorando
               </Button>
             </div>
-          </Card>
+          </div>
         </div>
       )}
     </div>
